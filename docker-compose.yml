@@ -6,4 +6,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8000:8000
-    container_name: note_app
