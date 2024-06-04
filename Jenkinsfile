@@ -21,7 +21,7 @@ pipeline {
                     docker.withRegistry('', 'dockerhub-credentials-id') {
                         sh 'docker push $APP_IMAGE:$IMAGE_TAG'
                     }
-
+		 }
             }
         }
         stage("Deploy") {
@@ -32,4 +32,4 @@ pipeline {
         }
     }
 }
-}
+
