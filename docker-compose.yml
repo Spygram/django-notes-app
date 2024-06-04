@@ -1,6 +1,9 @@
-version : "3.3"
-services :
-  web :
-     image : pawan8979/notes-app:latest
-     ports :
-         - "8000:8000"
+services:
+  webapp:
+    image: spygram/django_noteapp:latest
+    build:
+      context: '.'
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    container_name: note_app

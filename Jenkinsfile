@@ -1,13 +1,14 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
+        APP_IMAGE = 'spygram/djangonoteapp'
+        IMAGE_TAG = 'latest'
+    }
+
 
     stages {
-        stage("Code") {
-            steps {
-                echo 'Cloning the code'
-                git url:"https://github.com/pawan8979/django-notes-app.git", branch: "main"
-            }
-        }
+        
         stage("Build") {
             steps {
                 echo 'Building the image'
@@ -16,12 +17,11 @@ pipeline {
         }
         stage("Push") {
             steps {
-                echo 'Pushing the image to Docker Hub'
-                withCredentials([usernamePassword(credentialsId:"docker-hub", passwordVariable:"dockerHubPass", usernameVariable:"dockerHubUser")]){
-                    sh "docker tag notes-app ${env.dockerHubUser}/notes-app:latest"
-                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker push ${env.dockerHubUser}/notes-app:latest"
-                }
+                 script{
+                    docker.withRegistry('', 'dockerhub-credentials-id') {
+                        sh 'docker push $APP_IMAGE:$IMAGE_TAG'
+                    }
+
             }
         }
         stage("Deploy") {
