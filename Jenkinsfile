@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
-        APP_IMAGE = 'spygram/djangonoteapp'
+        APP_IMAGE = 'spygram/django_noteapp'
         IMAGE_TAG = 'latest'
     }
 
@@ -12,7 +12,7 @@ pipeline {
         stage("Build") {
             steps {
                 echo 'Building the image'
-                sh "docker build -t notes-app ."
+                sh "docker compose up -d."
             }
         }
         stage("Push") {
