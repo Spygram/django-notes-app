@@ -4,7 +4,7 @@ WORKDIR /app/backend
 
 COPY requirements.txt /app/backend
 RUN pip install -r requirements.txt
-
+RUN pip install django-prometheus
 COPY . /app/backend
 
 EXPOSE 8000
